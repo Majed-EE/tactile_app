@@ -1,0 +1,150 @@
+{
+    "0": {
+        "body_name": "palm",
+        "body_id": 0
+    },
+    "1": {
+        "body_name": "rf_base",
+        "body_id": 1,
+        "joint_name": "rfj0",
+        "actuator_name": "rfa0",
+        "actuator_id": 8,
+        "joint_id": 0
+    },
+    "2": {
+        "body_name": "rf_proximal",
+        "body_id": 2,
+        "joint_name": "rfj1",
+        "actuator_name": "rfa1",
+        "actuator_id": 9,
+        "joint_id": 1
+    },
+    "3": {
+        "body_name": "rf_medial",
+        "body_id": 3,
+        "joint_name": "rfj2",
+        "actuator_name": "rfa2",
+        "actuator_id": 10,
+        "joint_id": 2
+    },
+    "4": {
+        "body_name": "rf_distal",
+        "body_id": 4,
+        "joint_name": "rfj3",
+        "actuator_name": "rfa3",
+        "actuator_id": 11,
+        "joint_id": 3
+    },
+    "5": {
+        "body_name": "rf_tip",
+        "body_id": 5
+    },
+    "6": {
+        "body_name": "mf_base",
+        "body_id": 6,
+        "joint_name": "mfj0",
+        "actuator_name": "mfa0",
+        "actuator_id": 4,
+        "joint_id": 4
+    },
+    "7": {
+        "body_name": "mf_proximal",
+        "body_id": 7,
+        "joint_name": "mfj1",
+        "actuator_name": "mfa1",
+        "actuator_id": 5,
+        "joint_id": 5
+    },
+    "8": {
+        "body_name": "mf_medial",
+        "body_id": 8,
+        "joint_name": "mfj2",
+        "actuator_name": "mfa2",
+        "actuator_id": 6,
+        "joint_id": 6
+    },
+    "9": {
+        "body_name": "mf_distal",
+        "body_id": 9,
+        "joint_name": "mfj3",
+        "actuator_name": "mfa3",
+        "actuator_id": 7,
+        "joint_id": 7
+    },
+    "10": {
+        "body_name": "mf_tip",
+        "body_id": 10
+    },
+    "11": {
+        "body_name": "ff_base",
+        "body_id": 11,
+        "joint_name": "ffj0",
+        "actuator_name": "ffa0",
+        "actuator_id": 0,
+        "joint_id": 8
+    },
+    "12": {
+        "body_name": "ff_proximal",
+        "body_id": 12,
+        "joint_name": "ffj1",
+        "actuator_name": "ffa1",
+        "actuator_id": 1,
+        "joint_id": 9
+    },
+    "13": {
+        "body_name": "ff_medial",
+        "body_id": 13,
+        "joint_name": "ffj2",
+        "actuator_name": "ffa2",
+        "actuator_id": 2,
+        "joint_id": 10
+    },
+    "14": {
+        "body_name": "ff_distal",
+        "body_id": 14,
+        "joint_name": "ffj3",
+        "actuator_name": "ffa3",
+        "actuator_id": 3,
+        "joint_id": 11
+    },
+    "15": {
+        "body_name": "ff_tip",
+        "body_id": 15
+    },
+    "16": {
+        "body_name": "th_base",
+        "body_id": 16,
+        "joint_name": "thj0",
+        "actuator_name": "tha0",
+        "actuator_id": 12,
+        "joint_id": 12
+    },
+    "17": {
+        "body_name": "th_proximal",
+        "body_id": 17,
+        "joint_name": "thj1",
+        "actuator_name": "tha1",
+        "actuator_id": 13,
+        "joint_id": 13
+    },
+    "18": {
+        "body_name": "th_medial",
+        "body_id": 18,
+        "joint_name": "thj2",
+        "actuator_name": "tha2",
+        "actuator_id": 14,
+        "joint_id": 14
+    },
+    "19": {
+        "body_name": "th_distal",
+        "body_id": 19,
+        "joint_name": "thj3",
+        "actuator_name": "tha3",
+        "actuator_id": 15,
+        "joint_id": 15
+    },
+    "20": {
+        "body_name": "th_tip",
+        "body_id": 20
+    }
+}
