@@ -3,12 +3,12 @@ from mujoco.glfw import glfw
 import numpy as np
 # import os
 
-xml_path = ""
+xml_path = "boiler.xml"
 step_size = 100 
 print_camera_config = 0 #set to 1 to print camera config
                         
 
-#################################### callback config ###########################################
+#################################### Callback Config Enable to Move Camera ###########################################
 
 button_left = False
 button_middle = False
