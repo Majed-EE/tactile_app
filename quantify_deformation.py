@@ -6,7 +6,12 @@ import math
 import xml.etree.ElementTree as ET
 from matplotlib import pyplot as plt
 import json
-import cv2
+
+
+plot=True
+if not plot:
+    import cv2
+
 scene_no=0
 scene_xml=["vertical_arh_soft_scene.xml","vertical_arh_sphere_scene.xml"]
 
@@ -117,7 +122,8 @@ body_dict = load_dict_from_json('body_dict.json')
 
 # print(body_dict)
 
-#########################################################
+
+######################################################### Bulllet Like Functions #############################333
 
 def getTipInfo():
     global body_dict
@@ -188,46 +194,6 @@ def getBodyInfo():
 
 
 
-######################### Mapping Variables ############################### 
-
-
-
-
-
-
-
-######################### Control Variables ################################
-
-def setPositionControl(joint_id,angle):
-    q_start = 0
-    q_end = math.radians(angle); # ending angle # 90 degrees-------------------
-    q = np.linspace(q_start,q_end,N)
-    data.qpos[joint_id] = q_start;
-    # print(q)
-    return q
-
-
- 
-
-
-def positionControlArray(list_joint_id,list_target_angle):
-    if len(list_joint_id)==len(list_target_angle):
-        for joint_id in range (len(list_joint_id)):
-            set_position_servo(list_joint_id[joint_id],list_target_angle[joint_id])
-
-def set_position_servo(joint_id,bend_angle):
-    
-    # model.actuator_gainprm[actuator_no,0]=kp
-    # model.actuator_biasprm[actuator_no,1]=-kp
-    # print(f"joint id {joint_id}")
-    # print(joint_id)
-    data.ctrl[joint_id]=math.radians(bend_angle)
-    # print("ctrl matrix")
-    # print(data.ctrl)
-
-
-
-
 def actuator_name2id(actuator_name):
     actuator_id=None
     for key, value in enumerate(body_dict):
@@ -273,12 +239,45 @@ def joint_id2name(joint_id):
                 return joint_name 
 
 
+######################### Mapping Variables  End############################### 
+
+
+
+######################### joint info #########################
 
 
 
 
+######################## joint info ##############################
+
+######################### Control Variables Start ################################
+
+def setPositionControl(joint_id,angle):
+    q_start = 0
+    q_end = math.radians(angle); # ending angle # 90 degrees-------------------
+    q = np.linspace(q_start,q_end,N)
+    data.qpos[joint_id] = q_start;
+    # print(q)
+    return q
 
 
+ 
+
+
+def positionControlArray(list_joint_id,list_target_angle):
+    if len(list_joint_id)==len(list_target_angle):
+        for joint_id in range (len(list_joint_id)):
+            set_position_servo(list_joint_id[joint_id],list_target_angle[joint_id])
+
+def set_position_servo(joint_id,bend_angle):
+    
+    # model.actuator_gainprm[actuator_no,0]=kp
+    # model.actuator_biasprm[actuator_no,1]=-kp
+    # print(f"joint id {joint_id}")
+    # print(joint_id)
+    data.ctrl[joint_id]=math.radians(bend_angle)
+    # print("ctrl matrix")
+    # print(data.ctrl)
 
 
 
@@ -354,7 +353,7 @@ def controller(model,data):
 #set the controller
 mj.set_mjcb_control(controller)
 
-############################################ Controller Varables #################################################
+############################################ Controller Varables End #################################################
 
 
 
@@ -519,7 +518,7 @@ angle_stack_array=np.copy(data.qpos)
 # # while not glfw.window_should_close(window):
 frame_count=simend
 frames=[]
-for x in range(simend):
+for current_step in range(simend):
  
     step_start = T.time()
     mj.mj_step(model, data)
@@ -549,8 +548,8 @@ for x in range(simend):
     # print(data.contact)
 
 
-    if joint_angles_thumb[0]>=41:
-        open=True
+    # if joint_angles_thumb[0]>=41:
+    #     open=True
         # pass
     
 
@@ -563,7 +562,9 @@ for x in range(simend):
         #     print("ncon:")
         #     print(f"{ncon} and \nforce: {force[:3]} ")
         #     contact_forces.append(force)
+ 
 
+    # Contact force information
     ncon = data.ncon
     print(ncon)
     contact_info = []
@@ -641,19 +642,41 @@ for x in range(simend):
     rgb = np.zeros((height, width, 3), dtype=np.uint8)
     depth = np.zeros((height, width), dtype=np.float32)
     mj.mjr_readPixels(rgb, depth, viewport, context)
+    # print("hi")
     
-    # RGB to BGR for OpenCV
-    bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+    if not plot:
+        try:
 
-    rotated_image = cv2.rotate(bgr, cv2.ROTATE_180)
-    flipped_frame = cv2.flip(rotated_image, 1)
+            # RGB to BGR for OpenCV
+            bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
 
-    # Save the frame as an image
-    image_path = f'scene_des/zzz_frame_{x:04d}.png'
-    cv2.imwrite(image_path, flipped_frame)
+            # diff frame info
+            
+            if current_step>1:
+                diff_frame=np.zeros((height, width, 3), dtype=np.uint8)
+                diff_frame=bgr-frames[-1]
+                print(diff_frame)
+                all_zeros = not np.any(diff_frame)
+                # print(all_zeros)
+            else:
+                pass
+            frames.append(bgr)
+
+
+
+            rotated_diff=cv2.rotate(diff_frame, cv2.ROTATE_180)
+            rotated_image = cv2.rotate(bgr, cv2.ROTATE_180)
+            flipped_frame = cv2.flip(rotated_image, 1)
+
+            # Save the frame as an image
+            image_path = f'scene_des/zzz_frame_{current_step:04d}.png'
+            diff_image_path=f'diff_scene/frame_{current_step:04d}.png'
+            cv2.imwrite(image_path, flipped_frame)
+            cv2.imwrite(diff_image_path,rotated_diff)
+        
     
-    # frame info
-    # frames.append(bgr)
+        except Exception as e: print(e)
+
 
     glfw.swap_buffers(window)
     glfw.poll_events()
@@ -681,7 +704,7 @@ def graph_plotter_joints(target_stack_array,attribute):
     for joint in range(len(target_joint)):
         # print(torque_stack_array[0])
 
-        plt.plot(all_axis, target_stack_array[target_joint[joint]], linestyle='-',label=f'{attribute} for joint {target_joint_name[joint]}')
+        plt.plot(all_axis, target_stack_array[target_joint[joint]], linestyle='-',label=f'{attribute} at joint {target_joint_name[joint]}')
 
 
         # plt.scatter(all_axis,  torque_stack_array[target_joint[joint]], color='r', label=f'Torque for joint {target_joint[joint]}')
@@ -692,6 +715,8 @@ def graph_plotter_joints(target_stack_array,attribute):
     plt.legend()
     plt.grid(True)
 
+    plt.savefig(f"Plot Joints {attribute} variation.png")
+
     plt.show()
 
 angle_stack_array=np.degrees(angle_stack_array.T)
@@ -699,45 +724,13 @@ torque_stack_array=torque_stack_array.T
 finger_3
 # actuator_force_stack=actuator_force_stack.T
 unconstrained_torque_stack=check_np.T
-# graph_plotter_joints(angle_stack_array,"Angle")
-# graph_plotter_joints(unconstrained_torque_stack, "Torque")
-
-
-
-
-
-# Save frames as a video file
-# output_video_path = 'simulation_output.avi'
-# fps = 30
-# fourcc = cv2.VideoWriter_fourcc(*'XVID')
-# video_writer = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
-
-# for frame in frames:
-#     video_writer.write(frame)
-
-# video_writer.release()
-
-# # Optionally, save individual frames as images
-# for i, frame in enumerate(frames):
-#     image_path = f'frame_{i:04d}.png'
-#     Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)).save(image_path)
-
-# print(f'Video saved as {output_video_path}')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if plot:
+    try:
+        graph_plotter_joints(angle_stack_array,"Angle")
+        graph_plotter_joints(unconstrained_torque_stack, "Torque")
+        # pass
+    except:
+        print("Error: cant plot graph")
 
 
 
