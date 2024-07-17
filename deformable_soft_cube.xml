@@ -1,0 +1,32 @@
+<mujoco>
+
+
+    <option timestep=".001"/>
+
+    <extension>
+        <plugin plugin="mujoco.elasticity.solid"/>
+    </extension>
+    
+    <worldbody>
+        <frame name="world_frame" pos="0 0 0" euler="0 0 0" />
+
+        <!-- Light source -->
+        <light name="main_light" pos="0 0 3" dir="0 0 -1" diffuse="1 1 1" specular="0.1 0.1 0.1" />
+
+        <!-- The ground plane -->
+        <geom name="ground" type="plane" size="5 5 0.1" rgba="0.9 0.9 0.9 1" />
+<!-- soft body -->
+        <flexcomp type="grid" count="3 3 3" spacing=".1 .1 .1" pos=".1 0 1.5"
+                    radius=".0" rgba="1 0 0 1" name="softbody" dim="3" mass="1">
+            <contact condim="3" solref="0.01 1" solimp=".95 .99 .0001" selfcollide="none"/>
+            <edge damping="1"/>
+            <plugin plugin="mujoco.elasticity.solid">
+                <config key="poisson" value="0.2"/>
+                <!--Units are in Pa (SI)-->
+                <config key="young" value="5e4"/>
+            </plugin>
+        </flexcomp>
+    </worldbody>
+   
+
+</mujoco>
