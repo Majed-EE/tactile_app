@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 import json
 
 
-plot=True
+plot=False
 if not plot:
     import cv2
 
