@@ -23,12 +23,16 @@ def simple_subscriber():
     
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect("test.mosquitto.org", 1883, 60)
+    local_broker=True
+    broker_local_address="10.10.7.199"
+    broker_address = broker_local_address if local_broker else "test.mosquitto.org"
+    client.connect(broker_address, 1883, 60)
     
     # This will block and keep listening for messages
     print("Listening for messages...")
-    for x in range(100):
-        print(f"Waiting... {x+1}/100")
+    t_run=30
+    for x in range(t_run):
+        print(f"Waiting... {x+1}/{t_run}")
         client.loop_start()
         time.sleep(1)
     client.loop_stop()
