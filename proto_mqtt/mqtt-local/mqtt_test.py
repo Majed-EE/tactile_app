@@ -1,28 +1,3 @@
-#hi
-# import paho.mqtt.client as mqtt
-# import time
-
-# # Callback when connecting to the broker
-# def on_connect(client, userdata, flags, reason_code, properties):
-#     print(f"Connected with result code {reason_code}")
-#     # Subscribe to a topic
-#     client.subscribe("test/topic")
-
-# # Callback when receiving a message
-# def on_message(client, userdata, msg):
-#     print(f"Received message on {msg.topic}: {msg.payload.decode()}")
-
-# ip_list=["test.mosquitto.org"]
-# ip_indx=0
-# broker=ip_list[ip_indx]
-
-
-# client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2) # create new instance
-# print("connecting to broker", broker)
-# client.connect(broker, 1883, 60) # connect to the broker
-# time.sleep(4)
-# print("disconnecting")
-# client.disconnect() # disconnect
 
 import paho.mqtt.client as mqtt
 import time

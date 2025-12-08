@@ -11,20 +11,14 @@ def simple_subscriber():
         if reason_code == 0:
             print("Subscriber connected!")
             client.subscribe("UE/to_toy_arm")
+            client.subscribe("CAS/haptic_feedback")
         else:
             print(f"Connection failed: {reason_code}")
     
     def on_message(client, userdata, msg):
         try:
             data = json.loads(msg.payload.decode())
-            print(f"Received: {data}")
-            
-            # ask sarthak to update this variable
-            job_done=False
-            if job_done:
-                frm_msg="ok"
-                client.publish("UE/from_toy_arm", frm_msg)
-
+            print(f"Received from topic {msg.topic}: {data}")
         except:
             print(f"Received raw: {msg.payload.decode()}")
     
@@ -33,6 +27,7 @@ def simple_subscriber():
     local_broker=True
     broker_local_address="10.10.7.199"
     broker_address = broker_local_address if local_broker else "test.mosquitto.org"
+    print(f"connected to {broker_address}")
     client.connect(broker_address, 1883, 60)
     
     # This will block and keep listening for messages
