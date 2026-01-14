@@ -4,6 +4,7 @@ import websocket
 import json
 from time import sleep
 import threading
+import numpy as np
 
 # custom library imports
 import MyXela 
@@ -45,11 +46,20 @@ def mesreader():  # this is your app reading the last valid message you received
     while True:  # to run forever
         try:
             if lastmessage["message"] != "No message":
-                print(f"type of lastmessage: {type(lastmessage)}")
-                print("I received: {}\n---".format(str(lastmessage)))
-                print("recording to dataset...")
+                # print(f"type of lastmessage: {type(lastmessage)}")
+                # print(type(lastmessage), len(lastmessage))
+                # print("I received: {}\n---".format(str(lastmessage)))
+                print("extracting feature")
+                feature_extractor.extract_force(lastmessage)
+                print(f"Extracted features: {feature_extractor.fz_norm.shape, feature_extractor.fy_norm.shape, feature_extractor.fz_norm.shape}")
+                pub_val=np.max(feature_extractor.fz_norm)
+                print(f"published value (max of Fz norm): {pub_val}")
+
+                # print("recording to dataset...")
                 # dataset_record.record(lastmessage)
-            sleep(0.5)  # your calculations and processes here (sleep is used as simulation here)
+            t=1.5
+            print(f"--- sleeping for {t} seconds ---")
+            sleep(t)  # your calculations and processes here (sleep is used as simulation here)
         except KeyboardInterrupt:
             break  # break on KeyboardInterrupt
         except Exception as e:
