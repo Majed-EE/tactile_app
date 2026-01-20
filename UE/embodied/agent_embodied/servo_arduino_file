@@ -1,0 +1,21 @@
+
+#include <Servo.h>
+
+Servo s1, s2;
+
+void setup() {
+  Serial.begin(9600);
+  s1.attach(9);   // Servo 1 on pin 9
+  s2.attach(10);  // Servo 2 on pin 10
+}
+
+void loop() {
+  if (Serial.available()) {
+    int a1 = Serial.parseInt();
+    int a2 = Serial.parseInt();
+
+    if (a1 >= 0 && a1 <= 180 && a2 >= 0 && a2 <= 180) {
+      s1.write(a1);
+      s2.write(a2);
+    }
+  }
